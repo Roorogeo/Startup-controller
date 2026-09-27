@@ -27,6 +27,7 @@ Startup-controller/
 ├── StartupSelector.sln
 ├── README.md
 ├── .gitignore
+├── .github/workflows/ci.yml          # Windows build + single-file publish, uploads the exe
 ├── tools/
 │   └── make_icon.py                  # regenerates Resources/app.ico (pure Python, no dependencies)
 └── src/StartupSelector/
@@ -108,6 +109,8 @@ dotnet publish src/StartupSelector -p:PublishProfile=SingleFile-win-x64
 ```
 
 Output: `src/StartupSelector/bin/publish/win-x64/StartupSelector.exe` (about 65 MB, no .NET install needed).
+
+CI (`.github/workflows/ci.yml`) builds and publishes on `windows-latest` for every pull request and every push to `main`. It uploads the exe as the **StartupSelector-win-x64** artifact on the workflow run page.
 
 Equivalent explicit command:
 
