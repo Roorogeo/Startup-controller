@@ -27,8 +27,8 @@
                     Background="{StaticResource PanelBrush}"
                     BorderBrush="{StaticResource BorderBrush}"
                     BorderThickness="1"
-                    CornerRadius="6"
-                    Padding="12,9">
+                    CornerRadius="{StaticResource RadiusLg}"
+                    Padding="16,8">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -57,16 +57,16 @@
                         <DockPanel LastChildFill="True">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                                 <Border Background="{StaticResource AccentBrush}"
-                                        CornerRadius="3"
+                                        CornerRadius="{StaticResource RadiusSm}"
                                         Padding="6,0,2,0"
                                         Margin="8,0,0,0"
                                         VerticalAlignment="Center"
                                         Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}}"
                                         ToolTip="Added to Windows startup since the last time you looked">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="NEW" Foreground="White" FontSize="10" FontWeight="Bold" VerticalAlignment="Center" />
+                                        <TextBlock Text="NEW" Foreground="{StaticResource OnAccentBrush}" FontSize="10" FontWeight="Bold" VerticalAlignment="Center" />
                                         <Button Style="{StaticResource IconButton}"
-                                                Foreground="White"
+                                                Foreground="{StaticResource OnAccentBrush}"
                                                 Padding="4,1"
                                                 FontFamily="{StaticResource IconFont}"
                                                 FontSize="8"
@@ -90,7 +90,7 @@
                                          ToolTip="{Binding ProblemText}" />
                             </StackPanel>
                             <TextBlock TextTrimming="CharacterEllipsis" VerticalAlignment="Center">
-                                <Run Text="{Binding DisplayName, Mode=OneWay}" FontWeight="SemiBold" FontSize="14" />
+                                <Run Text="{Binding DisplayName, Mode=OneWay}" FontWeight="SemiBold" FontSize="15" />
                                 <Run Text="{Binding Description, Mode=OneWay, StringFormat='  {0}'}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" />
                             </TextBlock>
                         </DockPanel>
@@ -133,6 +133,7 @@
             <DataTemplate.Triggers>
                 <Trigger SourceName="Row" Property="IsMouseOver" Value="True">
                     <Setter TargetName="Row" Property="Background" Value="{StaticResource PanelHoverBrush}" />
+                    <Setter TargetName="Row" Property="BorderBrush" Value="{StaticResource BorderHoverBrush}" />
                 </Trigger>
                 <DataTrigger Binding="{Binding IsChecked}" Value="True">
                     <Setter TargetName="Row" Property="BorderBrush" Value="{StaticResource AccentSubtleBorderBrush}" />
@@ -144,7 +145,7 @@
                     <Setter TargetName="Status" Property="Foreground" Value="{StaticResource WarningBrush}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsNew}" Value="True">
-                    <Setter TargetName="Row" Property="Background" Value="#24344A" />
+                    <Setter TargetName="Row" Property="Background" Value="{StaticResource PanelHoverBrush}" />
                     <Setter TargetName="Row" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
                 </DataTrigger>
             </DataTemplate.Triggers>
@@ -171,7 +172,7 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <Image Source="/Resources/app.ico" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" />
                 <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-                    <TextBlock Text="Startup Selector" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="Startup Selector" FontSize="22" FontWeight="SemiBold" />
                     <TextBlock Text="Choose which apps start this session." Style="{StaticResource SecondaryText}" />
                 </StackPanel>
             </StackPanel>
@@ -229,10 +230,10 @@
         <!-- ================================================= countdown -->
         <Border Grid.Row="1"
                 Margin="0,16,0,0"
-                Padding="16,12"
-                CornerRadius="6"
+                Padding="16"
+                CornerRadius="{StaticResource RadiusLg}"
                 Background="{StaticResource PanelBrush}"
-                BorderBrush="{StaticResource AccentBrush}"
+                BorderBrush="{StaticResource BorderHoverBrush}"
                 BorderThickness="1"
                 Visibility="{Binding IsCountdownVisible, Converter={StaticResource BoolToVisibility}}">
             <Grid>
@@ -241,7 +242,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="{Binding CountdownText}" FontSize="14" />
+                    <TextBlock Text="{Binding CountdownText}" />
                     <ProgressBar Value="{Binding CountdownProgress, Mode=OneWay}" Margin="0,10,0,0" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="16,0,0,0" VerticalAlignment="Center">
@@ -258,9 +259,9 @@
                     <Border x:Name="Bar"
                             Margin="0,0,0,6"
                             Padding="14,8,6,8"
-                            CornerRadius="6"
-                            Background="{StaticResource AccentSubtleBrush}"
-                            BorderBrush="{StaticResource AccentSubtleBorderBrush}"
+                            CornerRadius="{StaticResource RadiusLg}"
+                            Background="{StaticResource PanelBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
                             BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -349,7 +350,7 @@
             <TextBlock HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Style="{StaticResource SecondaryText}"
-                       FontSize="14"
+                       FontSize="15"
                        Text="No startup apps were found."
                        Visibility="{Binding HasItems, Converter={StaticResource InverseBoolToVisibility}}" />
         </Grid>

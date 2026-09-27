@@ -37,7 +37,8 @@ Startup-controller/
     ├── Properties/PublishProfiles/
     │   └── SingleFile-win-x64.pubxml # one self-contained .exe
     ├── Resources/app.ico
-    ├── Themes/Dark.xaml              # palette + templates: buttons, checkbox, combo, scrollbars, menus, tooltips...
+    ├── Fonts/                        # Inter (SIL OFL), used by the Noir theme
+    ├── Themes/Dark.xaml              # Noir palette + templates: buttons, checkbox, combo, scrollbars, menus, tooltips...
     ├── Converters/BoolToVisibilityConverter.cs
     ├── Models/
     │   ├── AppSettings.cs            # everything persisted to settings.json
@@ -76,7 +77,7 @@ Startup-controller/
         ├── SettingsWindow.xaml(.cs)
         ├── DialogWindow.xaml(.cs)    # dark MessageBox / confirm / text prompt
         ├── DialogService.cs
-        └── WindowTheming.cs          # DwmSetWindowAttribute(DWMWA_USE_IMMERSIVE_DARK_MODE)
+        └── WindowTheming.cs          # dark title bar (DWMWA_USE_IMMERSIVE_DARK_MODE), black caption on Windows 11
 ```
 
 No NuGet packages are used. Everything is plain .NET 8 (WPF, plus WinForms for the tray icon only).
@@ -158,9 +159,11 @@ Setup: publish the exe and run it once. For a broken-entry test, add a fake entr
 13. **Corrupted settings.** Exit, put garbage into `settings.json`, then start. A warning info bar appears, the bad file is moved to `settings.corrupt-*.json`, and the last good settings are restored.
 14. **Release all.** *Settings → Release all apps back to Windows*. Every managed app returns to its previous Task Manager state, the `StartupSelector` Run value is removed, and you are offered to exit.
 15. **Single instance.** Launch the exe a second time. The existing window comes to the front instead.
-16. **Dark mode.** The title bars, list, checkboxes, dropdown, scrollbars, tooltips, dialogs and tray menu are all dark.
+16. **Noir theme.** Everything sits on pure black with white text and controls and soft translucent borders: title bars, list, checkboxes, dropdown, scrollbars, tooltips, dialogs and tray menu. The primary button is white with a faint halo, and text uses Inter.
 
 ## Design notes
+
+- **Theme.** The look follows the "Noir" design system: black `background`, `surface` and `surface-raised` panels, white `ink` for text and primary controls, translucent white borders, 6/10/16 px radii and the Inter font. All colors live in the palette block at the top of `Themes/Dark.xaml` (the tray menu mirrors them in `TrayIconService.cs`). Amber warnings and red destructive actions are the only colors, kept so problems and irreversible actions still stand out.
 
 - **All On / All Off and presets apply to managed apps.** Apps still controlled by Windows are shown greyed out, since Windows starts them regardless. Click **Manage** (or **Manage all…**) to put them under your control.
 - **Releasing restores the previous state.** An app that was already disabled in Task Manager before you managed it goes back to disabled, not enabled, so releasing never turns on something you had switched off.

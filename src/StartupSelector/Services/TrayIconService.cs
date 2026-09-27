@@ -5,7 +5,7 @@ using Drawing = System.Drawing;
 
 namespace StartupSelector.Services
 {
-    /// <summary>System tray icon with a dark context menu: Open, Launch Preset ▸, Settings, Exit.</summary>
+    /// <summary>System tray icon with a Noir-styled context menu: Open, Launch Preset ▸, Settings, Exit.</summary>
     public sealed class TrayIconService : IDisposable
     {
         private readonly WinForms.NotifyIcon _notifyIcon;
@@ -142,14 +142,15 @@ namespace StartupSelector.Services
             return (Drawing.Icon)Drawing.SystemIcons.Application.Clone();
         }
 
-        /// <summary>Paints the WinForms tray menu with the same dark palette as the WPF windows.</summary>
+        /// <summary>Paints the WinForms tray menu with the Noir palette used by the WPF windows (Themes/Dark.xaml).
+        /// Menus sit on surface-raised; the translucent border tokens are pre-blended onto it here.</summary>
         private sealed class DarkMenuRenderer : WinForms.ToolStripProfessionalRenderer
         {
-            public static readonly Drawing.Color Background = Drawing.Color.FromArgb(0x2D, 0x2D, 0x2D);
-            public static readonly Drawing.Color Hover = Drawing.Color.FromArgb(0x3E, 0x3E, 0x42);
-            public static readonly Drawing.Color Border = Drawing.Color.FromArgb(0x45, 0x45, 0x45);
-            public static readonly Drawing.Color Text = Drawing.Color.FromArgb(0xE0, 0xE0, 0xE0);
-            public static readonly Drawing.Color DisabledText = Drawing.Color.FromArgb(0x80, 0x80, 0x80);
+            public static readonly Drawing.Color Background = Drawing.Color.FromArgb(0x17, 0x17, 0x17);   // surface-raised
+            public static readonly Drawing.Color Hover = Drawing.Color.FromArgb(0x2A, 0x2A, 0x2A);        // border-subtle on surface-raised
+            public static readonly Drawing.Color Border = Drawing.Color.FromArgb(0x3C, 0x3C, 0x3C);       // border on surface-raised
+            public static readonly Drawing.Color Text = Drawing.Color.FromArgb(0xFF, 0xFF, 0xFF);         // ink
+            public static readonly Drawing.Color DisabledText = Drawing.Color.FromArgb(0x7A, 0x7A, 0x7A); // ink-subtle
 
             public DarkMenuRenderer()
                 : base(new DarkColorTable())
