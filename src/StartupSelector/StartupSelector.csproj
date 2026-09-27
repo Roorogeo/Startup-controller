@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\app.ico" />
+    <!-- Inter (SIL Open Font License, see Fonts\Inter-OFL.txt), used by the Noir theme. -->
+    <Resource Include="Fonts\*.ttf" />
   </ItemGroup>
 
 </Project>

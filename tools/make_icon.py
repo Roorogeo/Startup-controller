@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Generates src/StartupSelector/Resources/app.ico with no third-party dependencies.
 
-The icon is an accent-blue rounded square with a white check mark, rendered at
+The icon follows the Noir theme: a black rounded square with a soft white ring
+(white 40% on black, like the border-strong token) and a white check mark, rendered at
 16, 20, 24, 32, 40, 48, 64 and 256 px (4x4 supersampled). The 256 px frame is stored
 as PNG; smaller frames use classic 32-bit DIB data so every icon API can read them.
 
@@ -14,8 +15,9 @@ import zlib
 
 SIZES = [16, 20, 24, 32, 40, 48, 64, 256]
 SUPERSAMPLE = 4
-TOP = (0x5A, 0xA8, 0xFF)
-BOTTOM = (0x3A, 0x8A, 0xEE)
+FILL = (0x00, 0x00, 0x00)
+RING = (0x66, 0x66, 0x66)  # white at 40% over black
+CHECK_COLOR = (0xFF, 0xFF, 0xFF)
 CHECK = [(0.27, 0.53), (0.44, 0.69), (0.75, 0.35)]
 
 
@@ -46,6 +48,7 @@ def render(size):
     margin = 0.0 if size <= 24 else 0.04
     radius = 0.22
     half_width = 0.075 if size <= 24 else 0.062
+    ring = max(1.0 / size, 0.045)
     rows = []
     n = SUPERSAMPLE
     for py in range(size):
@@ -61,11 +64,11 @@ def render(size):
                     if not (0 <= ux <= 1 and 0 <= uy <= 1) or not inside_rounded_square(ux, uy, radius):
                         continue
                     if on_check(ux, uy, half_width):
-                        cr, cg, cb = 255, 255, 255
+                        cr, cg, cb = CHECK_COLOR
+                    elif not inside_rounded_square((ux - ring) / (1 - 2 * ring), (uy - ring) / (1 - 2 * ring), radius):
+                        cr, cg, cb = RING
                     else:
-                        cr = TOP[0] + (BOTTOM[0] - TOP[0]) * uy
-                        cg = TOP[1] + (BOTTOM[1] - TOP[1]) * uy
-                        cb = TOP[2] + (BOTTOM[2] - TOP[2]) * uy
+                        cr, cg, cb = FILL
                     r += cr
                     g += cg
                     b += cb
