@@ -1,0 +1,20 @@
+# Build output
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.DotSettings.user
+
+# Publish output
+publish/
+*.pubxml.user
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
